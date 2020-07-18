@@ -1,10 +1,17 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "TileMap.h"
+#include "ECS.h"
+#include "Components.h"
 
 GameObject* player;
-
+TileMap* map;
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
+
+Manager manager;
+auto& newPlayer(manager.addEntity());
 
 Game::Game()
 {
@@ -43,19 +50,26 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 
 	player = new GameObject("assets/body_03.png", 0, 0);
+	map = new TileMap();
 
+	newPlayer.addComponent<PositionComponent>();
+	
 }
 
 void Game::eventHandler()
 {
-	SDL_Event event;
+	
+
 	SDL_PollEvent(&event);
+	
 	switch (event.type)
 	{
 	case SDL_QUIT:
 		isRunning = false;
 		break;
+	case SDL_MOUSEBUTTONDOWN:
 
+		break;
 	default:
 		break;
 	}
@@ -64,11 +78,14 @@ void Game::eventHandler()
 void Game::update()
 {
 	player->Update();
+	manager.update();
+	std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
 }
 
 void Game::render()
 {
 		SDL_RenderClear(renderer);
+		map->drawMap();
 		player->Render();
 		SDL_RenderPresent(renderer);
 }

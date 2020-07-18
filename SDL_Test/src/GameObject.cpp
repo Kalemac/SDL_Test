@@ -14,7 +14,6 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-
 	angle = 90;
 	
 	srcRect.h = 128;
