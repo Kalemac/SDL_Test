@@ -70,7 +70,6 @@ void GameObject::changeAngle(int ang) {
 }
 
 bool GameObject::getActive() {
-	//std::cout << "Active: " << isActive << std::endl;
 	return isActive;
 }
 

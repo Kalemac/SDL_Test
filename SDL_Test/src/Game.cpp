@@ -196,18 +196,14 @@ void Game::eventHandler()
 
 void Game::update()
 {
-	//std::cout << "Motion: " << motion << std::endl;
 	for (auto& player_ship : team1) {
 		player_ship->Update();
 	}
 	for (auto& enemy_ship : team2) {
 		enemy_ship->Update();
 	}
-	//player->Update();
-	//enemy->Update();
 	fireButton->Update();
 	moveButton->Update();
-	//RenderHPBar(384, 672, 128, 32, (float)(player->getHull() / 50), green, red);
 	
 	
 	
@@ -215,7 +211,6 @@ void Game::update()
 		isRunning = false;  
 	}
 	//manager.update();
-	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
 }  
 
 void Game::render()
@@ -229,14 +224,10 @@ void Game::render()
 	for (auto& enemy_ship : team2) {
 		enemy_ship->Render();
 	}
-	//player->Render();
-	//enemy->Render();
 	if(turn == 0)
 		fireButton->Render();
 	if(turn == 1)
 		moveButton->Render();
-	//std::cout << player->getHull() << std::endl;
-	//RenderHPBar(384, 672, 128, 32, (float)(player->getHull() / 50), green, red);
 	SDL_RenderPresent(renderer);
 }
 
