@@ -113,6 +113,21 @@ int Ship::getAngle(Ship* TargetShip)
 	return ((int)offsetAngle % 360);
 }
 
+int Ship::getMovePoints()
+{
+	return movement;
+}
+
+int Ship::getLocationX()
+{
+	return Location.x;
+}
+
+int Ship::getLocationY()
+{
+	return Location.y;
+}
+
 void Ship::setLocation(int newX, int newY)
 {
 	Location.x = newX;

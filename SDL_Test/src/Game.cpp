@@ -19,6 +19,7 @@ Ship* enemy1;
 Ship* temp = NULL;
 Ship* active = NULL;
 
+
 vector<Ship*> blueTeam;
 vector<Ship*> redTeam;
 
@@ -202,14 +203,29 @@ void Game::eventHandler()
 		break;
 	case SDL_MOUSEBUTTONUP:
 		if (temp != NULL)
+		{
+			int distance = temp->getRange(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
+			if (distance <= temp->getMovePoints())
+			{
+				SDL_Log("In Move Range");
+				temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
+
+			}
+			else
+			{
+				SDL_Log("Out of Move Range.");
+				temp->xpos = temp->getLocationX() * 32;
+				temp->ypos = temp->getLocationY() * 32;
+			}
 			//temp->setActive(false);
-		temp = NULL;
+			temp = NULL;
+		}
 		break;
 	case SDL_MOUSEMOTION:
 		if (temp != NULL && temp->getActive()) {
 			temp->xpos = event.button.x;
 			temp->ypos = event.button.y;
-			temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
+			//temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
 		}
 		break;
 	case SDL_KEYDOWN:

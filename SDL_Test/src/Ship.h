@@ -40,6 +40,9 @@ public:
 	int getRange(Ship* TargetShip);
 	int getRange(int, int);
 	int getAngle(Ship* TargetShip);
+	int getMovePoints();
+	int getLocationX();
+	int getLocationY();
 	void setLocation(int, int);
 	const char* getName();
 	std::string getStringName();
