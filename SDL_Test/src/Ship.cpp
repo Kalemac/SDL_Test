@@ -153,4 +153,7 @@ void Ship::Render() {
 	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y, -64, -5, ((float)currentHullHP / (float)maxHullHP), red, black);
 	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y-5, -64, -5, ((float)currentShieldHP / (float)maxShieldHP), blue, black);
 	SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+	if (isActive) {
+		SDL_RenderCopyEx(Game::renderer, outlineTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+	}
 }

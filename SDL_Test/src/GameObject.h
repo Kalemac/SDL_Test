@@ -11,6 +11,7 @@ protected:
 	bool isTarget;
 
 	SDL_Texture* objectTexture;
+	SDL_Texture* outlineTexture;
 	SDL_Rect srcRect, destRect;
 
 public:

@@ -4,6 +4,7 @@
 GameObject::GameObject(const char* textureSheet, int x, int y)
 {
 	objectTexture = TextureManager::loadTexture_BMP(textureSheet);
+	outlineTexture = TextureManager::loadTexture_BMP("assets/outline.bmp");
 	xpos = x;
 	ypos = y;
 	isActive = false;
