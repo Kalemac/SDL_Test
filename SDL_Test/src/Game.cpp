@@ -19,8 +19,8 @@ Ship* enemy1;
 Ship* temp = NULL;
 Ship* active = NULL;
 
-vector<Ship*> team1;
-vector<Ship*> team2;
+vector<Ship*> blueTeam;
+vector<Ship*> redTeam;
 
 TileMap* map;
 SDL_Renderer* Game::renderer = nullptr;
@@ -84,12 +84,12 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 
 
-	team1.push_back(player);
-	team1.push_back(player1);
-	team2.push_back(enemy);
-	team2.push_back(enemy1);
+	blueTeam.push_back(player);
+	blueTeam.push_back(player1);
+	redTeam.push_back(enemy);
+	redTeam.push_back(enemy1);
 
-	for (auto& enemy_ship : team2) {
+	for (auto& enemy_ship : redTeam) {
 		enemy_ship->setFacingLeft();
 		enemy_ship->changeAngle(-90);
 	}
@@ -115,31 +115,33 @@ void Game::eventHandler()
 		isRunning = false;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		for (auto& ship : team1) {
+		for (auto& ship : blueTeam) {
 			if (turn == 0 && SDL_PointInRect(&point, &ship->getBox())) {
 				temp = ship;
-				for (auto& ship : team1) {
+				active = ship;
+				for (auto& ship : blueTeam) {
 					ship->setActive(false);
 				}
 				temp->setActive(true);
 			}
 			else if (turn == 1 && SDL_PointInRect(&point, &ship->getBox())) {
-				for (auto& ship : team1) {
+				for (auto& ship : blueTeam) {
 					ship->setTargeted(false);
 				}
 				ship->setTargeted(true);
 			}
 		}
-		for (auto& ship : team2) {
+		for (auto& ship : redTeam) {
 			if (turn == 1 && SDL_PointInRect(&point, &ship->getBox())) {
 				temp = ship;
-				for (auto& ship : team2) {
+				active = ship;
+				for (auto& ship : redTeam) {
 					ship->setActive(false);
 				}
 				temp->setActive(true);	
 			}
 			else if (turn == 0 && SDL_PointInRect(&point, &ship->getBox())) {
-				for (auto& ship : team2) {
+				for (auto& ship : redTeam) {
 					ship->setTargeted(false);
 				}
 				ship->setTargeted(true);
@@ -149,25 +151,47 @@ void Game::eventHandler()
 			temp = enemy;
 			temp->setActive(true);
 		}*/
+
+		//Fire Button For Blue Team
 		if (turn == 0 && SDL_PointInRect(&point, &fireButton->getBox())) {
 			turn = 1;
-			player->AttackTarget(enemy, &(player->testWeapon));
-			for (auto& ship : team1) {
+			if (active != NULL) {
+				for (auto& ship : redTeam) {
+					if (ship->getTargeted()) {
+						active->AttackTarget(ship, &(active->testWeapon));
+					}
+				}
+				//active->AttackTarget(enemy, &(active->testWeapon));
+			}
+			//player->AttackTarget(enemy, &(player->testWeapon));
+			for (auto& ship : blueTeam) {
 				ship->setActive(false);
 			}
-			for (auto& ship : team2) {
+			for (auto& ship : redTeam) {
 				ship->setTargeted(false);
 			}
+			active = NULL;
 		}
+
+		//Fire Button For Red Team
 		else if (turn == 1 && SDL_PointInRect(&point, &moveButton->getBox())) {
 			turn = 0;
-			enemy->AttackTarget(player, &(enemy->testWeapon));
-			for (auto& ship : team2) {
+			if (active != NULL) {
+				for (auto& ship : blueTeam) {
+					if (ship->getTargeted()) {
+						active->AttackTarget(ship, &(active->testWeapon));
+					}
+				}
+				
+			}
+			//enemy->AttackTarget(player, &(enemy->testWeapon));
+			for (auto& ship : redTeam) {
 				ship->setActive(false);
 			}
-			for (auto& ship : team1) {
+			for (auto& ship : blueTeam) {
 				ship->setTargeted(false);
 			}
+			active = NULL;
 		}
 		/*else {
 			if (temp != NULL)
@@ -214,19 +238,27 @@ void Game::eventHandler()
 
 void Game::update()
 {
-	for (auto& player_ship : team1) {
+	for (auto& player_ship : blueTeam) {
 		player_ship->Update();
 	}
-	for (auto& enemy_ship : team2) {
+	for (auto& enemy_ship : redTeam) {
 		enemy_ship->Update();
 	}
 	fireButton->Update();
 	moveButton->Update();
 	
 	
-	
-	if (player->getHull() <= 0 || enemy->getHull() <= 0) {
-		isRunning = false;  
+	for (auto& ship : blueTeam) {
+		if (ship->getHull() <= 0) {
+			SDL_Log("Red Team Wins");
+			isRunning = false;
+		}
+	}
+	for (auto& ship : redTeam) {
+		if (ship->getHull() <= 0) {
+			SDL_Log("Blue Team Wins");
+			isRunning = false;
+		}
 	}
 	//manager.update();
 }  
@@ -236,10 +268,10 @@ void Game::render()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	map->drawMap();
-	for (auto& player_ship : team1) {
+	for (auto& player_ship : blueTeam) {
 		player_ship->Render();
 	}
-	for (auto& enemy_ship : team2) {
+	for (auto& enemy_ship : redTeam) {
 		enemy_ship->Render();
 	}
 	if(turn == 0)
