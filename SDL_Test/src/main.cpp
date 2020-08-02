@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 
 	game = new Game();
 
-	game->init("Vegie Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 30*32 + 100, 20*32 + 100, false);
+	game->init("Star Strike", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 30*32 + 100, 20*32 + 100, false);
 
 	while (game->running()) {
 

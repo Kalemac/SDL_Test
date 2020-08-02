@@ -12,6 +12,7 @@
 #include "GameLogicSmallStructs.h"
 #include <cmath>
 #include <iostream>
+#include "AttackAnim.h"
 
 using namespace std;
 
@@ -28,6 +29,9 @@ class Ship : public GameObject
 	int movement; // Number of tiles the ship can move.
 	int accuracy;
 	int evasion;
+	bool fired;
+	Ship* targetShip;
+	AttackAnim* missile;
 	//vector<ShipWeapon> weapons; 
 	// int SightRange; // If we get to implementing the fog of war.
 
@@ -44,6 +48,7 @@ public:
 	const char* getName();
 	std::string getStringName();
 	void Render();
+	void Update();
 
 	int getHull();
 	

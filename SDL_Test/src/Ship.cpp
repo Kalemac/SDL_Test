@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include "UIFunctions.h"
+#include "AttackAnim.h"
 //#include "text.h"
 
 SDL_Color red = { 255, 20, 20 };
@@ -15,7 +16,8 @@ void Ship::setFacingLeft()
 
 // To-hit roll function. 
 void Ship::AttackTarget(Ship* TargetShip, ShipWeapon* FiringWeapon)
-{
+{	
+	targetShip = TargetShip;
 	int range = getRange(TargetShip);
 	std::cout << "Range: " << range;
 	int angle = getAngle(TargetShip);
@@ -34,6 +36,9 @@ void Ship::AttackTarget(Ship* TargetShip, ShipWeapon* FiringWeapon)
 
 		//SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
 		//SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 32, TargetShip->getBox().x + 32, TargetShip->getBox().y + 32);
+
+		fired = true;
+		//missile = new AttackAnim("assets/missile.bmp", xpos, ypos, TargetShip->xpos, TargetShip->ypos);
 	}
 	else
 	{
@@ -140,6 +145,7 @@ Ship::Ship(string id, string name, int MaxHull, int MaxShield, int Move, int Acc
 	testWeapon = weapon;
 	Location.x = x/32;
 	Location.y = y/32;
+	fired = false;
 }
 
 int Ship::getHull() {
@@ -158,5 +164,27 @@ void Ship::Render() {
 	}
 	if (isTarget) {
 		SDL_RenderCopyEx(Game::renderer, targetedTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+	}
+	if (fired && (targetShip != NULL)) {
+		SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
+		SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 32, targetShip->getBox().x + 32, targetShip->getBox().y + 32);
+		fired = false;	
+		targetShip = NULL;
+	}
+}
+
+void Ship::Update()
+{
+	srcRect.h = 32;
+	srcRect.w = 32;
+	srcRect.x = 0;
+	srcRect.y = 0;
+
+	destRect.x = xpos - (xpos % 64) + 1;
+	destRect.y = ypos - (ypos % 64) + 1;
+	destRect.w = 62;
+	destRect.h = 62;
+	if (missile != NULL) {
+		missile->update();
 	}
 }

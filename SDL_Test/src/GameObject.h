@@ -30,7 +30,7 @@ public:
 
 	void swapActive();
 
-	void Update();
+	virtual void Update();
 	virtual void Render();
 
 	void changeAngle(int angle);

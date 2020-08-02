@@ -194,6 +194,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\AttackAnim.cpp" />
     <ClCompile Include="src\button.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
@@ -207,6 +208,7 @@
     <ClCompile Include="src\UIFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AttackAnim.h" />
     <ClInclude Include="src\button.h" />
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\ECS.h" />
