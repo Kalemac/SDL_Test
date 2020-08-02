@@ -12,6 +12,7 @@ protected:
 
 	SDL_Texture* objectTexture;
 	SDL_Texture* outlineTexture;
+	SDL_Texture* targetedTexture;
 	SDL_Rect srcRect, destRect;
 
 public:

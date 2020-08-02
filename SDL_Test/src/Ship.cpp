@@ -156,4 +156,7 @@ void Ship::Render() {
 	if (isActive) {
 		SDL_RenderCopyEx(Game::renderer, outlineTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
 	}
+	if (isTarget) {
+		SDL_RenderCopyEx(Game::renderer, targetedTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+	}
 }

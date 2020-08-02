@@ -123,6 +123,12 @@ void Game::eventHandler()
 				}
 				temp->setActive(true);
 			}
+			else if (turn == 1 && SDL_PointInRect(&point, &ship->getBox())) {
+				for (auto& ship : team1) {
+					ship->setTargeted(false);
+				}
+				ship->setTargeted(true);
+			}
 		}
 		for (auto& ship : team2) {
 			if (turn == 1 && SDL_PointInRect(&point, &ship->getBox())) {
@@ -131,6 +137,12 @@ void Game::eventHandler()
 					ship->setActive(false);
 				}
 				temp->setActive(true);	
+			}
+			else if (turn == 0 && SDL_PointInRect(&point, &ship->getBox())) {
+				for (auto& ship : team2) {
+					ship->setTargeted(false);
+				}
+				ship->setTargeted(true);
 			}
 		}
 		/*if (turn == 1 && SDL_PointInRect(&point, &enemy->getBox())) {
@@ -143,12 +155,18 @@ void Game::eventHandler()
 			for (auto& ship : team1) {
 				ship->setActive(false);
 			}
+			for (auto& ship : team2) {
+				ship->setTargeted(false);
+			}
 		}
 		else if (turn == 1 && SDL_PointInRect(&point, &moveButton->getBox())) {
 			turn = 0;
 			enemy->AttackTarget(player, &(enemy->testWeapon));
 			for (auto& ship : team2) {
 				ship->setActive(false);
+			}
+			for (auto& ship : team1) {
+				ship->setTargeted(false);
 			}
 		}
 		/*else {
