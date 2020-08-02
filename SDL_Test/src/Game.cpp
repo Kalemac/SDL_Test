@@ -116,23 +116,21 @@ void Game::eventHandler()
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		for (auto& ship : team1) {
-			//std::cout << ship->getStringName() << std::endl;
 			if (turn == 0 && SDL_PointInRect(&point, &ship->getBox())) {
-				//SDL_Log("ship clicked");
 				temp = ship;
+				for (auto& ship : team1) {
+					ship->setActive(false);
+				}
 				temp->setActive(true);
-				//SDL_Log(temp->getName());
-				SDL_Log("loop 1");
 			}
 		}
 		for (auto& ship : team2) {
-			//std::cout << ship->getStringName() << std::endl;
 			if (turn == 1 && SDL_PointInRect(&point, &ship->getBox())) {
-				//SDL_Log("ship clicked");
 				temp = ship;
-				temp->setActive(true);
-				//SDL_Log(temp->getName());
-				SDL_Log("loop 2");
+				for (auto& ship : team2) {
+					ship->setActive(false);
+				}
+				temp->setActive(true);	
 			}
 		}
 		/*if (turn == 1 && SDL_PointInRect(&point, &enemy->getBox())) {
@@ -142,12 +140,16 @@ void Game::eventHandler()
 		if (turn == 0 && SDL_PointInRect(&point, &fireButton->getBox())) {
 			turn = 1;
 			player->AttackTarget(enemy, &(player->testWeapon));
-		
+			for (auto& ship : team1) {
+				ship->setActive(false);
+			}
 		}
 		else if (turn == 1 && SDL_PointInRect(&point, &moveButton->getBox())) {
 			turn = 0;
 			enemy->AttackTarget(player, &(enemy->testWeapon));
-	
+			for (auto& ship : team2) {
+				ship->setActive(false);
+			}
 		}
 		/*else {
 			if (temp != NULL)
@@ -155,18 +157,14 @@ void Game::eventHandler()
 			temp = NULL;
 		}*/
 
-		//std::cout << "TRUE" << std::endl;
 		break;
 	case SDL_MOUSEBUTTONUP:
 		if (temp != NULL)
-			temp->setActive(false);
+			//temp->setActive(false);
 		temp = NULL;
-		//std::cout << "FALSE" << std::endl;
 		break;
 	case SDL_MOUSEMOTION:
 		if (temp != NULL && temp->getActive()) {
-			//std::cout << "I SHOULD BE MOVING" << std::endl;
-			//std::cout << temp->getName() << " Should be Moving" << std::endl;
 			temp->xpos = event.button.x;
 			temp->ypos = event.button.y;
 			temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
