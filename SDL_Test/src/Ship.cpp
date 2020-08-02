@@ -134,6 +134,16 @@ void Ship::setLocation(int newX, int newY)
 	Location.y = newY;
 }
 
+void Ship::reduceMovement(int distance)
+{
+	movement -= distance;
+}
+
+void Ship::restoreMovement()
+{
+	movement = maxMovement;
+}
+
 const char* Ship::getName()
 {
 	return name.c_str();
@@ -149,7 +159,7 @@ Ship::Ship(string id, string name, int MaxHull, int MaxShield, int Move, int Acc
 	this->name = name;
 	currentHullHP = maxHullHP = MaxHull;
 	currentShieldHP = maxShieldHP = MaxShield;
-	movement = Move;
+	maxMovement = movement = Move;
 	accuracy = Acc;
 	evasion = Evade;
 	testWeapon = weapon;

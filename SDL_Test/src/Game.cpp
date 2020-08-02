@@ -167,6 +167,7 @@ void Game::eventHandler()
 			//player->AttackTarget(enemy, &(player->testWeapon));
 			for (auto& ship : blueTeam) {
 				ship->setActive(false);
+				ship->restoreMovement();
 			}
 			for (auto& ship : redTeam) {
 				ship->setTargeted(false);
@@ -188,6 +189,7 @@ void Game::eventHandler()
 			//enemy->AttackTarget(player, &(enemy->testWeapon));
 			for (auto& ship : redTeam) {
 				ship->setActive(false);
+				ship->restoreMovement();
 			}
 			for (auto& ship : blueTeam) {
 				ship->setTargeted(false);
@@ -209,7 +211,7 @@ void Game::eventHandler()
 			{
 				SDL_Log("In Move Range");
 				temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
-
+				temp->reduceMovement(distance);
 			}
 			else
 			{

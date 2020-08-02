@@ -25,7 +25,8 @@ class Ship : public GameObject
 	int currentHullHP;
 	int maxShieldHP;
 	int currentShieldHP;
-	int movement; // Number of tiles the ship can move.
+	int movement; // Number of tiles the ship can move remaining.
+	int maxMovement; 
 	int accuracy;
 	int evasion;
 	//vector<ShipWeapon> weapons; 
@@ -44,6 +45,8 @@ public:
 	int getLocationX();
 	int getLocationY();
 	void setLocation(int, int);
+	void reduceMovement(int);
+	void restoreMovement();
 	const char* getName();
 	std::string getStringName();
 	void Render();
