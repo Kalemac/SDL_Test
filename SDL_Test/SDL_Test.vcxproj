@@ -99,8 +99,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\School\SDL2\include;C:\School\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\School\SDL2\lib\x64;C:\School\SDL2_image-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\School\SDL2_ttf-2.0.15\include;C:\School\SDL2\include;C:\School\SDL2_image-2.0.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\School\SDL2_ttf-2.0.15\lib\x64;C:\School\SDL2\lib\x64;C:\School\SDL2_image-2.0.5\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
     <IncludePath>C:\School\SDL2_image-2.0.5\include;C:\School\SDL2\include;C:\School\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
@@ -126,11 +126,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\School\SDL2\include;C:\School\SDL2_image-2.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\School\SDL2_ttf-2.0.15\include;C:\School\SDL2\include;C:\School\SDL2_image-2.0.5\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\School\SDL2_image-2.0.5\lib\x64;C:\School\SDL2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\School\SDL2_ttf-2.0.15\lib\x64;C:\School\SDL2_image-2.0.5\lib\x64;C:\School\SDL2\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
