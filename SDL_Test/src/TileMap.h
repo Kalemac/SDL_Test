@@ -10,13 +10,13 @@ private:
 	SDL_Texture* rock;
 	SDL_Texture* other;
 
-	int map[20][25];
+	int map[20][30];
 
 public:
 
 	TileMap();
 	~TileMap();
 
-	void loadMap(int arr[20][25]);
+	void loadMap(int arr[20][30]);
 	void drawMap();
 };

@@ -30,6 +30,21 @@
     <ClCompile Include="src\TileMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Ship.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShipSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShipWeapon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UIFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -50,10 +65,69 @@
     <ClInclude Include="src\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameLogicEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLogicSmallStructs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Ship.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShipSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShipWeapon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UIFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\..\Desktop\School Work\space.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\body_03.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\FIRE.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\MOVE.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\MushShipBlue.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\MushShipRed.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\outline.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\rock.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\space.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\space_v2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="png1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameFiles.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

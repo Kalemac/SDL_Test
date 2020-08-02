@@ -2,21 +2,39 @@
 #include "Game.h"
 
 class GameObject {
-private:
+protected:
 
-	int xpos;
-	int ypos;
+	
 	double angle;
+
+	bool isActive;
+	bool isTarget;
 
 	SDL_Texture* objectTexture;
 	SDL_Rect srcRect, destRect;
 
 public:
+
+	int xpos;
+	int ypos;
+
 	GameObject(const char* textureSheet, int x, int y);
 	~GameObject();
 
+
+	void setActive(bool active);
+	void setTargeted(bool targeted);
+	void unitPosition(int x, int y);
+
+	void swapActive();
+
 	void Update();
-	void Render();
+	virtual void Render();
 
+	void changeAngle(int angle);
 
+	SDL_Rect getBox();
+
+	bool getActive();
+	bool getTargeted();
 };

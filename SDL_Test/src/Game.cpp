@@ -1,17 +1,34 @@
 #include "Game.h"
 #include "TextureManager.h"
 #include "GameObject.h"
+#include "Ship.h"
 #include "TileMap.h"
-#include "ECS.h"
-#include "Components.h"
+#include "button.h"
+#include "../resource.h"
 
-GameObject* player;
+//#include "ECS.h"
+//#include "Components.h"
+
+//GameObject* player;
+//GameObject* enemy;
+Ship* player;
+Ship* enemy;
+
+Ship* temp = NULL;
+
 TileMap* map;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
-Manager manager;
-auto& newPlayer(manager.addEntity());
+Button* fireButton;
+Button* moveButton;
+
+int turn = 0;
+
+bool motion = false;
+
+//Manager manager;
+//auto& newPlayer(manager.addEntity());
 
 Game::Game()
 {
@@ -20,6 +37,7 @@ Game::Game()
 
 Game::~Game()
 {
+	clean();
 }
 
 void Game::init(const char * title, int xpos, int ypos, int width, int height, bool fullscreen)
@@ -48,46 +66,131 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 		isRunning = false;
 	}
 
+	
 
-	player = new GameObject("assets/body_03.png", 0, 0);
+	fireButton = new Button("assets/FIRE.bmp", 64, 672, 128, 32);
+	moveButton = new Button("assets/FIRE.bmp", 224, 672, 128, 32);
+	ShipWeapon testWeapon(1,5,FiringArc(-45,45),8,DamageType(1.0f,1.0f));
+	player = new Ship("NCC-1701", "Enterprise", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipBlue.bmp", 0, 0);
+	enemy = new Ship("KSS-1202", "K'Tinga", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipRed.bmp", 200, 200);
+	enemy->setFacingLeft();
+	enemy->changeAngle(-90);
+	
+	//player = new GameObject("assets/MushShipBlue.png", 0, 0);
+	//enemy = new GameObject("assets/MushShipRed.png", 200, 200);
 	map = new TileMap();
 
-	newPlayer.addComponent<PositionComponent>();
+	//newPlayer.addComponent<PositionComponent>();
 	
 }
 
 void Game::eventHandler()
 {
-	
-
 	SDL_PollEvent(&event);
-	
+	//std::cout << event.button.x << ", " << event.button.y << std::endl;
+	SDL_Point point = { event.button.x, event.button.y };
 	switch (event.type)
 	{
 	case SDL_QUIT:
 		isRunning = false;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
+		if (turn == 0 && SDL_PointInRect(&point, &player->getBox())) {
+			temp = player;
+			temp->setActive(true);
+		}
+		else if (turn == 1 && SDL_PointInRect(&point, &enemy->getBox())) {
+			temp = enemy;
+			temp->swapActive();
+		}
+		else if (turn == 0 && SDL_PointInRect(&point, &fireButton->getBox())) {
+			turn = 1;
+			player->AttackTarget(enemy, &(player->testWeapon));
+			SDL_Log("Fire Button 1 Pressed");
+		}
+		else if (turn == 1 && SDL_PointInRect(&point, &moveButton->getBox())) {
+			turn = 0;
+			enemy->AttackTarget(player, &(enemy->testWeapon));
+			SDL_Log("Fire Button 2 Pressed");
+		}
+		else {
+			if (temp != NULL)
+				temp->setActive(false);
+			temp = NULL;
+		}
 
+		//std::cout << "TRUE" << std::endl;
 		break;
+	case SDL_MOUSEBUTTONUP:
+		if (temp != NULL)
+			temp->setActive(false);
+		temp = NULL;
+		//std::cout << "FALSE" << std::endl;
+		break;
+	case SDL_MOUSEMOTION:
+		if (temp != NULL && temp->getActive()) {
+			//std::cout << "I SHOULD BE MOVING" << std::endl;
+			temp->xpos = event.button.x;
+			temp->ypos = event.button.y;
+			temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
+		}
+		break;
+	case SDL_KEYDOWN:
+		switch (event.key.keysym.sym) {
+		case SDLK_SPACE:
+			player->AttackTarget(enemy, &(player->testWeapon));
+			break;
+		case SDLK_a:
+			enemy->AttackTarget(player, &(enemy->testWeapon));
+			break;
+		}
+		break;
+	case SDL_KEYUP:
+		switch (event.key.keysym.sym) {
+		case SDLK_SPACE:
+
+			break;
+		}
+		break;
+
 	default:
 		break;
 	}
+
 }
 
 void Game::update()
 {
+	//std::cout << "Motion: " << motion << std::endl;
 	player->Update();
-	manager.update();
-	std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
-}
+	enemy->Update();
+	fireButton->Update();
+	moveButton->Update();
+	//RenderHPBar(384, 672, 128, 32, (float)(player->getHull() / 50), green, red);
+	
+	
+	
+	if (player->getHull() <= 0 || enemy->getHull() <= 0) {
+		isRunning = false;  
+	}
+	//manager.update();
+	//std::cout << newPlayer.getComponent<PositionComponent>().x() << "," << newPlayer.getComponent<PositionComponent>().y() << std::endl;
+}  
 
 void Game::render()
-{
-		SDL_RenderClear(renderer);
-		map->drawMap();
-		player->Render();
-		SDL_RenderPresent(renderer);
+{	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
+	map->drawMap();
+	player->Render();
+	enemy->Render();
+	if(turn == 0)
+		fireButton->Render();
+	if(turn == 1)
+		moveButton->Render();
+	//std::cout << player->getHull() << std::endl;
+	//RenderHPBar(384, 672, 128, 32, (float)(player->getHull() / 50), green, red);
+	SDL_RenderPresent(renderer);
 }
 
 void Game::clean()
@@ -95,6 +198,8 @@ void Game::clean()
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+	IMG_Quit();
+	TTF_Quit();
 	std::cout << "Game cleaned..." << std::endl;
 }
 
@@ -102,3 +207,4 @@ bool Game::running()
 {
 	return isRunning;
 }
+
