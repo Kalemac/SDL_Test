@@ -201,12 +201,12 @@
     <ClCompile Include="src\Ship.cpp" />
     <ClCompile Include="src\ShipSystem.cpp" />
     <ClCompile Include="src\ShipWeapon.cpp" />
+    <ClCompile Include="src\text.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\TileMap.cpp" />
     <ClCompile Include="src\UIFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="src\button.h" />
     <ClInclude Include="src\Components.h" />
     <ClInclude Include="src\ECS.h" />
@@ -217,6 +217,7 @@
     <ClInclude Include="src\Ship.h" />
     <ClInclude Include="src\ShipSystem.h" />
     <ClInclude Include="src\ShipWeapon.h" />
+    <ClInclude Include="src\text.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\TileMap.h" />
     <ClInclude Include="src\UIFunctions.h" />
@@ -235,9 +236,6 @@
     <Image Include="assets\space.png" />
     <Image Include="assets\space_v2.png" />
     <Image Include="png1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GameFiles.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

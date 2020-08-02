@@ -1,9 +1,11 @@
 #include "Ship.h"
 #include "UIFunctions.h"
+//#include "text.h"
 
 SDL_Color red = { 255, 20, 20 };
 SDL_Color black = {0, 0, 0 };
 SDL_Color blue = { 0, 170, 255 };
+SDL_Color white = { 255,255,255 };
 
 void Ship::setFacingLeft()
 {
@@ -122,9 +124,14 @@ const char* Ship::getName()
 	return name.c_str();
 }
 
+std::string Ship::getStringName() {
+	return name;
+}
+
+
 Ship::Ship(string id, string name, int MaxHull, int MaxShield, int Move, int Acc, int Evade, ShipWeapon weapon, const char* textureSheet, int x, int y) : GameObject{ textureSheet, x, y }
 {
-	
+	this->name = name;
 	currentHullHP = maxHullHP = MaxHull;
 	currentShieldHP = maxShieldHP = MaxShield;
 	movement = Move;
@@ -140,6 +147,9 @@ int Ship::getHull() {
 }
 
 void Ship::Render() {
+	//Text HPText(Game::renderer, "assets/bahnschrift.ttf.ttf", 10, "test", white);
+	//UIFunciton::RenderHPText(destRect.x + 64, destRect.y, "assets/Android.ttf", 10, "test", white);
+	//HPText.display(destRect.x + 64, destRect.y, Game::renderer);
 	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y, -64, -5, ((float)currentHullHP / (float)maxHullHP), red, black);
 	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y-5, -64, -5, ((float)currentShieldHP / (float)maxShieldHP), blue, black);
 	SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);

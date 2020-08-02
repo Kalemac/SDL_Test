@@ -42,7 +42,7 @@ public:
 	int getAngle(Ship* TargetShip);
 	void setLocation(int, int);
 	const char* getName();
-
+	std::string getStringName();
 	void Render();
 
 	int getHull();

@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "TextureManager.h"
 
-GameObject::GameObject(const char * textureSheet, int x, int y)
+GameObject::GameObject(const char* textureSheet, int x, int y)
 {
 	objectTexture = TextureManager::loadTexture_BMP(textureSheet);
 	xpos = x;

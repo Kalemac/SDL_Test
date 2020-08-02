@@ -4,7 +4,7 @@
 #include "Ship.h"
 #include "TileMap.h"
 #include "button.h"
-#include "../resource.h"
+#include <vector>
 
 //#include "ECS.h"
 //#include "Components.h"
@@ -13,8 +13,14 @@
 //GameObject* enemy;
 Ship* player;
 Ship* enemy;
+Ship* player1;
+Ship* enemy1;
 
 Ship* temp = NULL;
+Ship* active = NULL;
+
+vector<Ship*> team1;
+vector<Ship*> team2;
 
 TileMap* map;
 SDL_Renderer* Game::renderer = nullptr;
@@ -37,7 +43,7 @@ Game::Game()
 
 Game::~Game()
 {
-	clean();
+	//clean();
 }
 
 void Game::init(const char * title, int xpos, int ypos, int width, int height, bool fullscreen)
@@ -73,8 +79,22 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 	ShipWeapon testWeapon(1,5,FiringArc(-45,45),8,DamageType(1.0f,1.0f));
 	player = new Ship("NCC-1701", "Enterprise", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipBlue.bmp", 0, 0);
 	enemy = new Ship("KSS-1202", "K'Tinga", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipRed.bmp", 200, 200);
-	enemy->setFacingLeft();
-	enemy->changeAngle(-90);
+	player1 = new Ship("NCC-6545", "Discovery", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipBlue.bmp", 0, 64);
+	enemy1 = new Ship("KSS-6969", "M'Lady", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipRed.bmp", 200, 264);
+
+
+
+	team1.push_back(player);
+	team1.push_back(player1);
+	team2.push_back(enemy);
+	team2.push_back(enemy1);
+
+	for (auto& enemy_ship : team2) {
+		enemy_ship->setFacingLeft();
+		enemy_ship->changeAngle(-90);
+	}
+
+	
 	
 	//player = new GameObject("assets/MushShipBlue.png", 0, 0);
 	//enemy = new GameObject("assets/MushShipRed.png", 200, 200);
@@ -95,29 +115,45 @@ void Game::eventHandler()
 		isRunning = false;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
-		if (turn == 0 && SDL_PointInRect(&point, &player->getBox())) {
-			temp = player;
-			temp->setActive(true);
+		for (auto& ship : team1) {
+			//std::cout << ship->getStringName() << std::endl;
+			if (turn == 0 && SDL_PointInRect(&point, &ship->getBox())) {
+				//SDL_Log("ship clicked");
+				temp = ship;
+				temp->setActive(true);
+				//SDL_Log(temp->getName());
+				SDL_Log("loop 1");
+			}
 		}
-		else if (turn == 1 && SDL_PointInRect(&point, &enemy->getBox())) {
+		for (auto& ship : team2) {
+			//std::cout << ship->getStringName() << std::endl;
+			if (turn == 1 && SDL_PointInRect(&point, &ship->getBox())) {
+				//SDL_Log("ship clicked");
+				temp = ship;
+				temp->setActive(true);
+				//SDL_Log(temp->getName());
+				SDL_Log("loop 2");
+			}
+		}
+		/*if (turn == 1 && SDL_PointInRect(&point, &enemy->getBox())) {
 			temp = enemy;
-			temp->swapActive();
-		}
-		else if (turn == 0 && SDL_PointInRect(&point, &fireButton->getBox())) {
+			temp->setActive(true);
+		}*/
+		if (turn == 0 && SDL_PointInRect(&point, &fireButton->getBox())) {
 			turn = 1;
 			player->AttackTarget(enemy, &(player->testWeapon));
-			SDL_Log("Fire Button 1 Pressed");
+		
 		}
 		else if (turn == 1 && SDL_PointInRect(&point, &moveButton->getBox())) {
 			turn = 0;
 			enemy->AttackTarget(player, &(enemy->testWeapon));
-			SDL_Log("Fire Button 2 Pressed");
+	
 		}
-		else {
+		/*else {
 			if (temp != NULL)
 				temp->setActive(false);
 			temp = NULL;
-		}
+		}*/
 
 		//std::cout << "TRUE" << std::endl;
 		break;
@@ -130,6 +166,7 @@ void Game::eventHandler()
 	case SDL_MOUSEMOTION:
 		if (temp != NULL && temp->getActive()) {
 			//std::cout << "I SHOULD BE MOVING" << std::endl;
+			//std::cout << temp->getName() << " Should be Moving" << std::endl;
 			temp->xpos = event.button.x;
 			temp->ypos = event.button.y;
 			temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
@@ -162,8 +199,14 @@ void Game::eventHandler()
 void Game::update()
 {
 	//std::cout << "Motion: " << motion << std::endl;
-	player->Update();
-	enemy->Update();
+	for (auto& player_ship : team1) {
+		player_ship->Update();
+	}
+	for (auto& enemy_ship : team2) {
+		enemy_ship->Update();
+	}
+	//player->Update();
+	//enemy->Update();
 	fireButton->Update();
 	moveButton->Update();
 	//RenderHPBar(384, 672, 128, 32, (float)(player->getHull() / 50), green, red);
@@ -182,8 +225,14 @@ void Game::render()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	map->drawMap();
-	player->Render();
-	enemy->Render();
+	for (auto& player_ship : team1) {
+		player_ship->Render();
+	}
+	for (auto& enemy_ship : team2) {
+		enemy_ship->Render();
+	}
+	//player->Render();
+	//enemy->Render();
 	if(turn == 0)
 		fireButton->Render();
 	if(turn == 1)

@@ -15,3 +15,26 @@ void UIFunciton::RenderHPBar(int x, int y, int w, int h, float Percent, SDL_Colo
 	SDL_RenderFillRect(Game::renderer, &fgrect);
 	SDL_SetRenderDrawColor(Game::renderer, old.r, old.g, old.b, old.a);
 }
+
+void UIFunciton::RenderHPText(int x, int y, const std::string& font_path, int font_size, const std::string& message_text, const SDL_Color& color)
+{
+	SDL_Rect text_rect;
+	text_rect.x = x;
+	text_rect.y = y;
+	TTF_Font* font = TTF_OpenFont(font_path.c_str(), font_size);
+	if (!font) {
+		SDL_Log("failed to load font\n");
+	}
+	auto text_surface = TTF_RenderText_Solid(font, message_text.c_str(), color);
+	if (!text_surface) {
+		SDL_Log("failed to create text surface\n");
+	}
+	auto text_texture = SDL_CreateTextureFromSurface(Game::renderer, text_surface);
+	if (!text_texture) {
+		SDL_Log("failed to create text texture");
+	}
+
+	SDL_QueryTexture(text_texture, nullptr, nullptr, &text_rect.w, &text_rect.h);
+	SDL_FreeSurface(text_surface);
+	SDL_RenderCopy(Game::renderer, text_texture, nullptr, &text_rect);
+}
