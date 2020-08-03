@@ -37,6 +37,9 @@ public:
 	ShipWeapon testWeapon;
 
 	void setFacingLeft();
+	void setFacingRight();
+	void setFacingUp();
+	void setFacingDown();
 	void AttackTarget(Ship* TargetShip, ShipWeapon* FiringWeapon);
 	int TakeDamage(Ship* AttackingShip, ShipWeapon* FiringWeapon);
 	int getRange(Ship* TargetShip);

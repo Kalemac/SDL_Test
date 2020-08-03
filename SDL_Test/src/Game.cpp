@@ -273,6 +273,19 @@ void Game::eventHandler()
 		case SDLK_a:
 			enemy->AttackTarget(player, &(enemy->testWeapon));
 			break;
+
+		case SDLK_r:
+			player->setFacingRight();
+			break;
+		case SDLK_t:
+			player->setFacingUp();
+			break;
+		case SDLK_y:
+			player->setFacingLeft();
+			break;
+		case SDLK_u:
+			player->setFacingDown();
+			break;
 		}
 		break;
 	case SDL_KEYUP:
