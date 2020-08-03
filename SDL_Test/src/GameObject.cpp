@@ -24,10 +24,10 @@ void GameObject::Update()
 	srcRect.x = 0;
 	srcRect.y = 0;
 
-	destRect.x = xpos - (xpos % 64) + 1;
-	destRect.y = ypos - (ypos % 64) + 1;
-	destRect.w = 62;
-	destRect.h = 62;
+	destRect.x = xpos - (xpos % 64) + 2;
+	destRect.y = ypos - (ypos % 64) + 2;
+	destRect.w = 60;
+	destRect.h = 60;
 
 	//std::pair<int, int> posPair = GridPos::getGridPos(destRect.x, destRect.y);
 	//std::cout << "Grid X: " << floor(destRect.x / 32) << " Grid Y: " << floor(destRect.y / 32) << std::endl;

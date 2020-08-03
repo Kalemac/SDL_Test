@@ -96,21 +96,24 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 	IMG_Init(IMG_INIT_JPG);
 	TTF_Init();
-
+	//Initialize Fire Buttons
 	fireButtonBlue = new Button("assets/FIRE.bmp", 64, 672, 128, 32, 32, 128);
 	fireButtonRed = new Button("assets/FIRE.bmp", 768, 672, 128, 32, 32, 128);
+	//Initialize Directional Buttons
 	UP = new Button("assets/ArrowUp.bmp", 1012, 552, 32, 32, 64, 64);
 	DOWN = new Button("assets/ArrowDown.bmp", 1012, 584, 32, 32, 64, 64);
 	LEFT = new Button("assets/ArrowLeft.bmp", 980, 568, 32, 32, 64, 64);
 	RIGHT = new Button("assets/ArrowRight.bmp", 1044, 568, 32, 32, 64, 64);
+	//Initialize weapon types
 	ShipWeapon heavyWeapon(4,10,FiringArc(-45,45),12,DamageType(1.2f,1.0f));
 	ShipWeapon smallWeapon(2, 5, FiringArc(-90, 90), 6, DamageType(0.9f, 1.1f));
 	ShipWeapon snooperWeapon(8, 20, FiringArc(-20, 20), 30, DamageType(1.0f, 1.4f));
+	//Initialize blue team ships
 	player = new Ship("NCC-1701", "Enterprise", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipBlue.bmp", 0, 256);
 	player1 = new Ship("NCC-6545", "Discovery", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipBlue.bmp", 0, 320);
 	player2 = new Ship("NCC-4096", "Endeavour", 20, 40, 12, 10, 15, smallWeapon, "assets/RootedShipBlue.bmp", 0, 384);
 	player3 = new Ship("NCC-8320", "Atlantis", 15, 10, 2, 50, -20, snooperWeapon, "assets/BoomBeatleBlue.bmp", 0, 64);
-
+	//Initialize red team ships
 	enemy = new Ship("KSS-1202", "K'Tinga", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipRed.bmp", 896, 256);
 	enemy1 = new Ship("KSS-6969", "M'Lady", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipRed.bmp", 896, 320);
 	enemy2 = new Ship("KSS-4200", "Pepe Frog", 20, 40, 12, 10, 15, smallWeapon, "assets/RootedShipRed.bmp", 896, 384);
@@ -299,7 +302,7 @@ void Game::eventHandler()
 		}
 		break;
 	case SDL_KEYDOWN:
-		switch (event.key.keysym.sym) {
+		/*switch (event.key.keysym.sym) {
 		case SDLK_SPACE:
 			player->AttackTarget(enemy, &(player->testWeapon));
 			break;
@@ -319,7 +322,7 @@ void Game::eventHandler()
 		case SDLK_u:
 			player->setFacingDown();
 			break;
-		}
+		}*/
 		break;
 	case SDL_KEYUP:
 		switch (event.key.keysym.sym) {
