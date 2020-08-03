@@ -11,7 +11,7 @@ private:
 	bool isActive;
 
 public:
-	Button(const char* textureSheet, int x, int y, int w, int h);
+	Button(const char* textureSheet, int x, int y, int w, int h, int sh, int sw);
 
 	SDL_Rect getBox();
 

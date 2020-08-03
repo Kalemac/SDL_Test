@@ -1,7 +1,7 @@
 #include "button.h"
 #include "TextureManager.h"
 
-Button::Button(const char* textureSheet, int x, int y, int w, int h)
+Button::Button(const char* textureSheet, int x, int y, int w, int h, int sh, int sw)
 {
 	buttonTexture = TextureManager::loadTexture_BMP(textureSheet);
 	isActive = false;
@@ -9,13 +9,12 @@ Button::Button(const char* textureSheet, int x, int y, int w, int h)
 	destBox.y = y;
 	destBox.w = w;
 	destBox.h = h;
-
+	srcBox.h = sh;
+	srcBox.w = sw;
 }
 
 void Button::Update() {
 
-	srcBox.h = 32;
-	srcBox.w = 128;
 	srcBox.x = 0;
 	srcBox.y = 0;
 

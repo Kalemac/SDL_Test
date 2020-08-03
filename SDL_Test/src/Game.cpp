@@ -38,9 +38,13 @@ SDL_Event Game::event;
 SDL_Surface* surf;
 SDL_Texture* text;
 
-Button* fireButton;
-Button* moveButton;
+Button* fireButtonBlue;
+Button* fireButtonRed;
 
+Button* UP;
+Button* DOWN;
+Button* LEFT;
+Button* RIGHT;
 string showText;
 
 int turn = 0;
@@ -93,8 +97,12 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 	IMG_Init(IMG_INIT_JPG);
 	TTF_Init();
 
-	fireButton = new Button("assets/FIRE.bmp", 64, 672, 128, 32);
-	moveButton = new Button("assets/FIRE.bmp", 768, 672, 128, 32);
+	fireButtonBlue = new Button("assets/FIRE.bmp", 64, 672, 128, 32, 32, 128);
+	fireButtonRed = new Button("assets/FIRE.bmp", 768, 672, 128, 32, 32, 128);
+	UP = new Button("assets/ArrowUp.bmp", 1012, 552, 32, 32, 64, 64);
+	DOWN = new Button("assets/ArrowDown.bmp", 1012, 584, 32, 32, 64, 64);
+	LEFT = new Button("assets/ArrowLeft.bmp", 980, 568, 32, 32, 64, 64);
+	RIGHT = new Button("assets/ArrowRight.bmp", 1044, 568, 32, 32, 64, 64);
 	ShipWeapon heavyWeapon(4,10,FiringArc(-45,45),12,DamageType(1.2f,1.0f));
 	ShipWeapon smallWeapon(2, 5, FiringArc(-90, 90), 6, DamageType(0.9f, 1.1f));
 	ShipWeapon snooperWeapon(8, 20, FiringArc(-20, 20), 30, DamageType(1.0f, 1.4f));
@@ -184,7 +192,7 @@ void Game::eventHandler()
 		}*/
 
 		//Fire Button For Blue Team
-		if (turn == 0 && SDL_PointInRect(&point, &fireButton->getBox())) {
+		if (turn == 0 && SDL_PointInRect(&point, &fireButtonBlue->getBox())) {
 			turn = 1;
 			if (active != NULL) {
 				for (auto& ship : redTeam) {
@@ -206,7 +214,7 @@ void Game::eventHandler()
 		}
 
 		//Fire Button For Red Team
-		else if (turn == 1 && SDL_PointInRect(&point, &moveButton->getBox())) {
+		else if (turn == 1 && SDL_PointInRect(&point, &fireButtonRed->getBox())) {
 			turn = 0;
 			if (active != NULL) {
 				for (auto& ship : blueTeam) {
@@ -225,6 +233,18 @@ void Game::eventHandler()
 				ship->setTargeted(false);
 			}
 			active = NULL;
+		}
+		else if (SDL_PointInRect(&point, &UP->getBox())) {
+			SDL_Log("UP");
+		}
+		else if (SDL_PointInRect(&point, &DOWN->getBox())) {
+			SDL_Log("DOWN");
+		}
+		else if (SDL_PointInRect(&point, &LEFT->getBox())) {
+			SDL_Log("LEFT");
+		}
+		else if (SDL_PointInRect(&point, &RIGHT->getBox())) {
+			SDL_Log("RIGHT");
 		}
 		/*else {
 			if (temp != NULL)
@@ -297,9 +317,13 @@ void Game::update()
 	for (auto& enemy_ship : redTeam) {
 		enemy_ship->Update();
 	}
-	fireButton->Update();
-	moveButton->Update();
+	fireButtonBlue->Update();
+	fireButtonRed->Update();
 	
+	UP->Update();
+	DOWN->Update();
+	LEFT->Update();
+	RIGHT->Update();
 	int deadShipsBlue = 0;
 	int deadShipsRed = 0;
 	for (auto& ship : blueTeam) {
@@ -362,11 +386,15 @@ void Game::render()
 			enemy_ship->Render();
 		}
 		if (turn == 0) {
-			fireButton->Render();
+			fireButtonBlue->Render();
 		}
 		if (turn == 1) {
-			moveButton->Render();
+			fireButtonRed->Render();
 		}
+		UP->Render();
+		DOWN->Render();
+		LEFT->Render();
+		RIGHT->Render();
 		UIFunciton::RenderHPText(480, 672, "assets/Android.ttf", 32, showText, { 255,255,255 });
 		UIFunciton::RenderHPText(1034, 32, "assets/Android.ttf", 22, "Ship Info", { 255,255,255 });
 		//SDL_RenderCopy(renderer, text, NULL, &dstrect);

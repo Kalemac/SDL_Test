@@ -105,6 +105,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Test|x64'">
     <IncludePath>C:\School\SDL2_image-2.0.5\include;C:\School\SDL2\include;C:\School\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\School\SDL2_ttf-2.0.15\lib\x64;C:\School\SDL2_image-2.0.5\lib\x64;C:\School\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <OutDir>..\..\Output</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -185,6 +186,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\School\SDL2_ttf-2.0.15\include;C:\School\SDL2_image-2.0.5\include;C:\School\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
