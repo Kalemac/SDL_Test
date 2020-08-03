@@ -185,43 +185,46 @@ void Ship::Render() {
 	//Text HPText(Game::renderer, "assets/bahnschrift.ttf.ttf", 10, "test", white);
 	
 	//HPText.display(destRect.x + 64, destRect.y, Game::renderer);
-	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y, -64, -5, ((float)currentHullHP / (float)maxHullHP), red, black);
-	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y-5, -64, -5, ((float)currentShieldHP / (float)maxShieldHP), blue, black);
+
 	//UIFunciton::RenderHPText(1034, 75, "assets/Android.ttf", 20, "Movement Range: \n" + to_string(maxMovement), white);
 	if (currentHullHP > 0) {
+		UIFunciton::RenderHPBar(destRect.x + 64, destRect.y, -64, -5, ((float)currentHullHP / (float)maxHullHP), red, black);
+		UIFunciton::RenderHPBar(destRect.x + 64, destRect.y - 5, -64, -5, ((float)currentShieldHP / (float)maxShieldHP), blue, black);
 		SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+		string hull = to_string(currentHullHP) + "/" + to_string(maxHullHP);
+		string shield = to_string(currentShieldHP) + "/" + to_string(maxShieldHP);
+		UIFunciton::RenderHPText(destRect.x + 32, destRect.y - 9, "assets/Android.ttf", 12, hull, white);
+		UIFunciton::RenderHPText(destRect.x + 32, destRect.y - 16, "assets/Android.ttf", 12, shield, white);
+		if (isActive) {
+			UIFunciton::RenderHPText(1034, 75, "assets/Android.ttf", 14, "Max Range: " + to_string(maxMovement / 2), white);
+			//UIFunciton::RenderHPText(1034, 82, "assets/Android.ttf", 14, to_string(maxMovement), white);
+			UIFunciton::RenderHPText(1034, 100, "assets/Android.ttf", 20, "Moves: " + to_string(movement / 2), white);
+			UIFunciton::RenderHPText(1024, 150, "assets/Android.ttf", 18, "Attack    ", white);
+			UIFunciton::RenderHPText(1024, 170, "assets/Android.ttf", 18, "Range   ", white);
+			UIFunciton::RenderHPText(1034 + 36, 155, "assets/Android.ttf", 26, ": " + to_string(testWeapon.getRange() / 2), white);
+			SDL_RenderCopyEx(Game::renderer, outlineTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+
+		}
+		if (isTarget) {
+			SDL_RenderCopyEx(Game::renderer, targetedTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+		}
+		if (isFiring && target != NULL) {
+			frameCount++;
+			SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
+			SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 32, target->getBox().x + 32, target->getBox().y + 32);
+			SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 32, target->getBox().x + 33, target->getBox().y + 32);
+			SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 33, target->getBox().x + 32, target->getBox().y + 33);
+			SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 33, target->getBox().x + 33, target->getBox().y + 33);
+			if (frameCount == 15) {
+				frameCount = 0;
+				isFiring = false;
+			}
+			//UIFunciton::RenderHPText(target->getBox().x + 64, target->getBox().y + 9, "assets/Android.ttf", 20, to_string(dmg), red);
+
+		}
 	}
 	//SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
-	if (isActive) {
-		UIFunciton::RenderHPText(1034, 75, "assets/Android.ttf", 14, "Max Range: " + to_string(maxMovement / 2), white);
-		//UIFunciton::RenderHPText(1034, 82, "assets/Android.ttf", 14, to_string(maxMovement), white);
-		UIFunciton::RenderHPText(1034, 100, "assets/Android.ttf", 20, "Moves: " + to_string(movement / 2), white);
-		UIFunciton::RenderHPText(1024, 150, "assets/Android.ttf", 18, "Attack    ", white);
-		UIFunciton::RenderHPText(1024, 170, "assets/Android.ttf", 18, "Range   ", white);
-		UIFunciton::RenderHPText(1034+36, 155, "assets/Android.ttf", 26, ": " + to_string(testWeapon.getRange() / 2), white); 
-		SDL_RenderCopyEx(Game::renderer, outlineTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
-
-	}
-	if (isTarget) {
-		SDL_RenderCopyEx(Game::renderer, targetedTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
-	}
-	if (isFiring && target != NULL) {
-		frameCount++;
-		SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
-		SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 32, target->getBox().x + 32, target->getBox().y + 32);
-		SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 32, target->getBox().x + 33, target->getBox().y + 32);
-		SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 33, target->getBox().x + 32, target->getBox().y + 33);
-		SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 33, target->getBox().x + 33, target->getBox().y + 33);
-		if (frameCount == 30) {
-			frameCount = 0;
-			isFiring = false;
-		}
-		//UIFunciton::RenderHPText(target->getBox().x + 64, target->getBox().y + 9, "assets/Android.ttf", 20, to_string(dmg), red);
-		
-	}
-	string hull = to_string(currentHullHP) + "/" + to_string(maxHullHP);
-	string shield = to_string(currentShieldHP) + "/" + to_string(maxShieldHP);
-	UIFunciton::RenderHPText(destRect.x + 32, destRect.y - 9, "assets/Android.ttf", 12, hull, white);
-	UIFunciton::RenderHPText(destRect.x + 32, destRect.y - 16, "assets/Android.ttf", 12, shield, white);
+	
+	
 	
 }
