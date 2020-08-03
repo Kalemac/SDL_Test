@@ -212,7 +212,7 @@ void Ship::Render() {
 		SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 32, target->getBox().x + 33, target->getBox().y + 32);
 		SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 33, target->getBox().x + 32, target->getBox().y + 33);
 		SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 33, target->getBox().x + 33, target->getBox().y + 33);
-		if (frameCount == 30) {
+		if (frameCount == 8) {
 			frameCount = 0;
 			isFiring = false;
 		}
