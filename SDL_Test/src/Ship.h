@@ -29,6 +29,7 @@ class Ship : public GameObject
 	int maxMovement; 
 	int accuracy;
 	int evasion;
+	bool isFiring;
 	//vector<ShipWeapon> weapons; 
 	// int SightRange; // If we get to implementing the fog of war.
 

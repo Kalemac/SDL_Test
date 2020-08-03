@@ -7,6 +7,10 @@ SDL_Color black = {0, 0, 0 };
 SDL_Color blue = { 0, 170, 255 };
 SDL_Color white = { 255,255,255 };
 
+Ship* target = NULL;
+
+int frameCount = 0;
+
 void Ship::setFacingLeft()
 {
 
@@ -16,6 +20,7 @@ void Ship::setFacingLeft()
 // To-hit roll function. 
 void Ship::AttackTarget(Ship* TargetShip, ShipWeapon* FiringWeapon)
 {
+	target = TargetShip;
 	int range = getRange(TargetShip);
 	std::cout << "Range: " << range;
 	int angle = getAngle(TargetShip);
@@ -32,6 +37,8 @@ void Ship::AttackTarget(Ship* TargetShip, ShipWeapon* FiringWeapon)
 		}
 		std::cout << "Damage: " << damage << " | Target Shield: " << TargetShip->currentShieldHP << " | Target Hull: " << TargetShip->currentHullHP << endl;
 
+
+		isFiring = true;
 		//SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
 		//SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 32, TargetShip->getBox().x + 32, TargetShip->getBox().y + 32);
 	}
@@ -40,7 +47,6 @@ void Ship::AttackTarget(Ship* TargetShip, ShipWeapon* FiringWeapon)
 		std::cout << " | In Range/Angle: No" << endl;
 	}
 
-	
 }
 
 int Ship::TakeDamage(Ship* AttackingShip, ShipWeapon* FiringWeapon)
@@ -165,6 +171,7 @@ Ship::Ship(string id, string name, int MaxHull, int MaxShield, int Move, int Acc
 	testWeapon = weapon;
 	Location.x = x/32;
 	Location.y = y/32;
+	isFiring = false;
 }
 
 int Ship::getHull() {
@@ -183,5 +190,18 @@ void Ship::Render() {
 	}
 	if (isTarget) {
 		SDL_RenderCopyEx(Game::renderer, targetedTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+	}
+	if (isFiring && target != NULL) {
+		frameCount++;
+		SDL_SetRenderDrawColor(Game::renderer, 255, 255, 255, 255);
+		SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 32, target->getBox().x + 32, target->getBox().y + 32);
+		SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 32, target->getBox().x + 33, target->getBox().y + 32);
+		SDL_RenderDrawLine(Game::renderer, getBox().x + 32, getBox().y + 33, target->getBox().x + 32, target->getBox().y + 33);
+		SDL_RenderDrawLine(Game::renderer, getBox().x + 33, getBox().y + 33, target->getBox().x + 33, target->getBox().y + 33);
+		if (frameCount == 15) {
+			frameCount = 0;
+			isFiring = false;
+		}
+
 	}
 }
