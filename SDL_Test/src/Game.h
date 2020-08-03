@@ -29,7 +29,7 @@ public:
 	static SDL_Renderer * renderer;
 	static SDL_Event event;
 
-
+	TTF_Font* font = TTF_OpenFont("assets/Android.ttf", 12);
 
 };
 

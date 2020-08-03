@@ -4,7 +4,10 @@
 #include "Ship.h"
 #include "TileMap.h"
 #include "button.h"
+#include "UIfunctions.h"
 #include <vector>
+
+
 
 //#include "ECS.h"
 //#include "Components.h"
@@ -27,8 +30,13 @@ TileMap* map;
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 
+SDL_Surface* surf;
+SDL_Texture* text;
+
 Button* fireButton;
 Button* moveButton;
+
+string showText;
 
 int turn = 0;
 
@@ -73,10 +81,11 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 		isRunning = false;
 	}
 
-	
+	IMG_Init(IMG_INIT_JPG);
+	TTF_Init();
 
 	fireButton = new Button("assets/FIRE.bmp", 64, 672, 128, 32);
-	moveButton = new Button("assets/FIRE.bmp", 224, 672, 128, 32);
+	moveButton = new Button("assets/FIRE.bmp", 768, 672, 128, 32);
 	ShipWeapon testWeapon(1,5,FiringArc(-45,45),8,DamageType(1.0f,1.0f));
 	player = new Ship("NCC-1701", "Enterprise", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipBlue.bmp", 0, 0);
 	enemy = new Ship("KSS-1202", "K'Tinga", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipRed.bmp", 200, 200);
@@ -225,8 +234,13 @@ void Game::eventHandler()
 		break;
 	case SDL_MOUSEMOTION:
 		if (temp != NULL && temp->getActive()) {
-			temp->xpos = event.button.x;
-			temp->ypos = event.button.y;
+			if (event.button.x < 960) {
+				temp->xpos = event.button.x;
+			}
+			if (event.button.y < 640) {
+				temp->ypos = event.button.y;
+			}
+			
 			//temp->setLocation(floor(temp->getBox().x) / 32, floor(temp->getBox().y) / 32);
 		}
 		break;
@@ -278,6 +292,21 @@ void Game::update()
 			isRunning = false;
 		}
 	}
+
+	if (turn == 0) {
+		showText = "Blue Team's Turn";
+	}
+	if (turn == 1) {
+		showText = "Red Team's Turn";
+	}
+
+	
+
+	//surf = TTF_RenderText_Solid(font, showText.c_str(), { 255,255,255 });
+	//text = SDL_CreateTextureFromSurface(renderer, surf);
+	//int textW, textH = 0;
+	//SDL_QueryTexture(text, NULL, NULL, &textW, &textH);
+	//SDL_Rect dstrect = { 480 - (textW / 2), 672, textW, textH };
 	//manager.update();
 }  
 
@@ -285,6 +314,7 @@ void Game::render()
 {	
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
+	
 	map->drawMap();
 	for (auto& player_ship : blueTeam) {
 		player_ship->Render();
@@ -292,10 +322,15 @@ void Game::render()
 	for (auto& enemy_ship : redTeam) {
 		enemy_ship->Render();
 	}
-	if(turn == 0)
+	if (turn == 0) {
 		fireButton->Render();
-	if(turn == 1)
+	}
+	if (turn == 1) {
 		moveButton->Render();
+	}
+	UIFunciton::RenderHPText(480, 672, "assets/Android.ttf", 32, showText, { 255,255,255 });
+
+	//SDL_RenderCopy(renderer, text, NULL, &dstrect);
 	SDL_RenderPresent(renderer);
 }
 
@@ -303,9 +338,9 @@ void Game::clean()
 {
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
-	SDL_Quit();
 	IMG_Quit();
 	TTF_Quit();
+	SDL_Quit();
 	std::cout << "Game cleaned..." << std::endl;
 }
 
