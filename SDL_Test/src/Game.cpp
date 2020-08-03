@@ -130,7 +130,7 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 	for (auto& enemy_ship : redTeam) {
 		enemy_ship->setFacingLeft();
-		enemy_ship->changeAngle(-90);
+		
 	}
 
 	
@@ -235,16 +235,29 @@ void Game::eventHandler()
 			active = NULL;
 		}
 		else if (SDL_PointInRect(&point, &UP->getBox())) {
-			SDL_Log("UP");
+			if (active != NULL) {
+				active->setFacingUp();
+				SDL_Log("UP");
+			}
+			
 		}
 		else if (SDL_PointInRect(&point, &DOWN->getBox())) {
-			SDL_Log("DOWN");
+			if (active != NULL) {
+				active->setFacingDown();
+				SDL_Log("Down");
+			}
 		}
 		else if (SDL_PointInRect(&point, &LEFT->getBox())) {
-			SDL_Log("LEFT");
+			if (active != NULL) {
+				active->setFacingLeft();
+				SDL_Log("Left");
+			}
 		}
 		else if (SDL_PointInRect(&point, &RIGHT->getBox())) {
-			SDL_Log("RIGHT");
+			if (active != NULL) {
+				active->setFacingRight();
+				SDL_Log("Right");
+			}
 		}
 		/*else {
 			if (temp != NULL)
