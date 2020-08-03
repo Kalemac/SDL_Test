@@ -17,6 +17,25 @@ void Ship::setFacingLeft()
 {
 
 	facing = 180;
+	changeAngle(-90);
+}
+
+void Ship::setFacingRight()
+{
+	facing = 0;
+	changeAngle(90);
+}
+
+void Ship::setFacingUp()
+{
+	facing = 270;
+	changeAngle(0);
+}
+
+void Ship::setFacingDown()
+{
+	facing = 90;
+	changeAngle(180);
 }
 
 // To-hit roll function. 
