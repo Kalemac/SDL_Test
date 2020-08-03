@@ -22,6 +22,8 @@ public:
 		int damageRange = maxDamage - minDamage;
 		return ((rand() % damageRange) + minDamage);
 	}
+	int getRange() { return range; };
+
 	DamageType getType() { return type; }
 	bool checkArcRange(int, int);
 	ShipWeapon(int = 0, int = 1, FiringArc = FiringArc(0,0), int = 1, DamageType = (1.0f,1.0f));

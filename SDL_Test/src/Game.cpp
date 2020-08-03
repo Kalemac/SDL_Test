@@ -14,10 +14,13 @@
 
 //GameObject* player;
 //GameObject* enemy;
+
 Ship* player;
-Ship* enemy;
 Ship* player1;
+Ship* player2;
+Ship* enemy;
 Ship* enemy1;
+Ship* enemy2;
 
 Ship* temp = NULL;
 Ship* active = NULL;
@@ -86,18 +89,25 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 
 	fireButton = new Button("assets/FIRE.bmp", 64, 672, 128, 32);
 	moveButton = new Button("assets/FIRE.bmp", 768, 672, 128, 32);
-	ShipWeapon testWeapon(1,5,FiringArc(-45,45),8,DamageType(1.0f,1.0f));
-	player = new Ship("NCC-1701", "Enterprise", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipBlue.bmp", 0, 0);
-	enemy = new Ship("KSS-1202", "K'Tinga", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipRed.bmp", 200, 200);
-	player1 = new Ship("NCC-6545", "Discovery", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipBlue.bmp", 0, 64);
-	enemy1 = new Ship("KSS-6969", "M'Lady", 50, 50, 5, 20, 5, testWeapon, "assets/MushShipRed.bmp", 200, 264);
+	ShipWeapon heavyWeapon(4,10,FiringArc(-45,45),12,DamageType(1.2f,1.0f));
+	ShipWeapon smallWeapon(2, 5, FiringArc(-90, 90), 6, DamageType(0.9f, 1.1f));
+	player = new Ship("NCC-1701", "Enterprise", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipBlue.bmp", 0, 256);
+	player1 = new Ship("NCC-6545", "Discovery", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipBlue.bmp", 0, 320);
+	player2 = new Ship("NCC-4096", "Endeavour", 20, 40, 12, 10, 15, smallWeapon, "assets/RootedShipBlue.bmp", 0, 384);
+	
+	enemy = new Ship("KSS-1202", "K'Tinga", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipRed.bmp", 896, 256);
+	enemy1 = new Ship("KSS-6969", "M'Lady", 50, 50, 6, 20, 5, heavyWeapon, "assets/MushShipRed.bmp", 896, 320);
+	enemy2 = new Ship("KSS-4200", "Pepe Frog", 20, 40, 12, 10, 15, smallWeapon, "assets/RootedShipRed.bmp", 896, 384);
+
 
 
 
 	blueTeam.push_back(player);
 	blueTeam.push_back(player1);
+	blueTeam.push_back(player2);
 	redTeam.push_back(enemy);
 	redTeam.push_back(enemy1);
+	redTeam.push_back(enemy2);
 
 	for (auto& enemy_ship : redTeam) {
 		enemy_ship->setFacingLeft();
@@ -329,7 +339,7 @@ void Game::render()
 		moveButton->Render();
 	}
 	UIFunciton::RenderHPText(480, 672, "assets/Android.ttf", 32, showText, { 255,255,255 });
-
+	UIFunciton::RenderHPText(1034, 32, "assets/Android.ttf", 22, "Ship Info", { 255,255,255 });
 	//SDL_RenderCopy(renderer, text, NULL, &dstrect);
 	SDL_RenderPresent(renderer);
 }

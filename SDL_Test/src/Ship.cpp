@@ -188,11 +188,17 @@ void Ship::Render() {
 	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y, -64, -5, ((float)currentHullHP / (float)maxHullHP), red, black);
 	UIFunciton::RenderHPBar(destRect.x + 64, destRect.y-5, -64, -5, ((float)currentShieldHP / (float)maxShieldHP), blue, black);
 	//UIFunciton::RenderHPText(1034, 75, "assets/Android.ttf", 20, "Movement Range: \n" + to_string(maxMovement), white);
-	SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+	if (currentHullHP > 0) {
+		SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+	}
+	//SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
 	if (isActive) {
 		UIFunciton::RenderHPText(1034, 75, "assets/Android.ttf", 14, "Max Range: " + to_string(maxMovement / 2), white);
 		//UIFunciton::RenderHPText(1034, 82, "assets/Android.ttf", 14, to_string(maxMovement), white);
 		UIFunciton::RenderHPText(1034, 100, "assets/Android.ttf", 20, "Moves: " + to_string(movement / 2), white);
+		UIFunciton::RenderHPText(1024, 150, "assets/Android.ttf", 18, "Attack    ", white);
+		UIFunciton::RenderHPText(1024, 170, "assets/Android.ttf", 18, "Range   ", white);
+		UIFunciton::RenderHPText(1034+36, 155, "assets/Android.ttf", 26, ": " + to_string(testWeapon.getRange() / 2), white); 
 		SDL_RenderCopyEx(Game::renderer, outlineTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
 
 	}
