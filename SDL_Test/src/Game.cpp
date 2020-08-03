@@ -235,16 +235,24 @@ void Game::eventHandler()
 			active = NULL;
 		}
 		else if (SDL_PointInRect(&point, &UP->getBox())) {
-			SDL_Log("UP");
+			if (active != NULL) {
+				active->setFacingUp();
+			}
 		}
 		else if (SDL_PointInRect(&point, &DOWN->getBox())) {
-			SDL_Log("DOWN");
+			if (active != NULL) {
+				active->setFacingDown();
+			}
 		}
 		else if (SDL_PointInRect(&point, &LEFT->getBox())) {
-			SDL_Log("LEFT");
+			if (active != NULL) {
+				active->setFacingLeft();
+			}
 		}
 		else if (SDL_PointInRect(&point, &RIGHT->getBox())) {
-			SDL_Log("RIGHT");
+			if (active != NULL) {
+				active->setFacingRight();
+			}
 		}
 		/*else {
 			if (temp != NULL)
