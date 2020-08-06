@@ -6,6 +6,7 @@
 #include "button.h"
 #include "UIfunctions.h"
 #include <vector>
+#include <time.h>
 
 
 
@@ -93,6 +94,8 @@ void Game::init(const char * title, int xpos, int ypos, int width, int height, b
 	else {
 		isRunning = false;
 	}
+
+	srand(time(0));
 
 	IMG_Init(IMG_INIT_JPG);
 	TTF_Init();
