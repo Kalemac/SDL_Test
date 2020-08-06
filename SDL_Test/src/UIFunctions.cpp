@@ -24,6 +24,7 @@ void UIFunciton::RenderHPText(int x, int y, const std::string& font_path, int fo
 	if (!font) {
 		SDL_Log("failed to load font\n");
 	}
+
 	auto text_surface = TTF_RenderText_Solid(font, message_text.c_str(), color);
 	if (!text_surface) {
 		SDL_Log("failed to create text surface\n");
@@ -36,6 +37,9 @@ void UIFunciton::RenderHPText(int x, int y, const std::string& font_path, int fo
 	SDL_QueryTexture(text_texture, nullptr, nullptr, &text_rect.w, &text_rect.h);
 	text_rect.x = x - (text_rect.w / 2);
 	text_rect.y = y;
+	
 	SDL_FreeSurface(text_surface);
+	TTF_CloseFont(font);
 	SDL_RenderCopy(Game::renderer, text_texture, nullptr, &text_rect);
+	SDL_DestroyTexture(text_texture);
 }

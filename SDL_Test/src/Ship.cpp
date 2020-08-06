@@ -216,7 +216,6 @@ void Ship::Render() {
 		UIFunciton::RenderHPText(destRect.x + 32, destRect.y - 16, "assets/Android.ttf", 12, shield, white);
 		if (isActive) {
 			UIFunciton::RenderHPText(1034, 75, "assets/Android.ttf", 14, "Max Range: " + to_string(maxMovement / 2), white);
-			//UIFunciton::RenderHPText(1034, 82, "assets/Android.ttf", 14, to_string(maxMovement), white);
 			UIFunciton::RenderHPText(1034, 100, "assets/Android.ttf", 20, "Moves: " + to_string(movement / 2), white);
 			UIFunciton::RenderHPText(1024, 150, "assets/Android.ttf", 18, "Attack    ", white);
 			UIFunciton::RenderHPText(1024, 170, "assets/Android.ttf", 18, "Range   ", white);
@@ -243,7 +242,4 @@ void Ship::Render() {
 		}
 	}
 	//SDL_RenderCopyEx(Game::renderer, objectTexture, &srcRect, &destRect, angle, NULL, SDL_FLIP_NONE);
-	
-	
-	
 }
